@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Web.Optimization" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bookly.Data\Bookly.Data.csproj" />
+    <ProjectReference Include="..\Bookly.Services\Bookly.Services.csproj" />
+    <ProjectReference Include="..\Bookly.ViewModels\Bookly.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Books\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="wwwroot\css\styles.css" />
+    <None Include="wwwroot\html\manageAuthors.html" />
+    <None Include="wwwroot\html\manageBooks.html" />
+    <None Include="wwwroot\html\manageBorrows.html" />
+    <None Include="wwwroot\html\manageCategories.html" />
+    <None Include="wwwroot\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\js\datatables-simple-demo.js" />
+    <None Include="wwwroot\js\scripts.js" />
+    <None Include="wwwroot\html\login.html" />
+    <None Include="wwwroot\html\register.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\ManageBorrows\" />
+    <Folder Include="wwwroot\images\books\" />
+  </ItemGroup>
+
+</Project>

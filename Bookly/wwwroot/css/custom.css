@@ -1,0 +1,378 @@
+﻿
+
+:root {
+    --bg-creamy: #f4f1ea; /*Светлый беж (фон из 3 фото) */
+    --olive-dark: #5b5d3c; /*Оливковый для акцентов или текста */
+    --terracotta: #a65d4a; /*Терракотовый для кнопок (Visit our store) */
+    --text-deep: #221E1C;
+   /* --text-deep: #2c2e21;*/ /*Темный для заголовков */
+    --serif-font: 'Playfair Display', serif;
+}
+
+
+
+body {
+    background-color: var(--bg-creamy);
+    color: var(--text-deep);
+    font-family: 'Lora', serif;
+}
+
+.content-box {
+    background-color: rgba(244, 241, 234, 0.95); 
+    border-left: 5px solid var(--terracotta);
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(5px); 
+}
+
+
+.main-img-overlay {
+    max-height: 500px;
+    width: 100%;
+    object-fit: cover;
+  
+}
+
+@media (min-width: 992px) {
+    .z-index-2 {
+        z-index: 20;
+    }
+}
+
+.hero-container {
+    padding-top: 80px;
+}
+
+.col-lg-5{
+    padding-left: 10%;
+    padding-right: 5%;
+}
+
+h1 {
+    font-family: 'Playfair Display';
+    font-size: 3.5rem;
+    color: #3E2723;
+    line-height: 1.1;
+}
+
+h3 {
+    font-family: 'Playfair Display';
+    font-size: 2.0rem;
+    font-weight: bold;
+    color: #221E1C;
+    line-height: 1.1;
+}
+
+.btn-visit {
+    background-color: #3E2723;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}
+
+    .btn-visit:hover {
+        background-color: #a65d4a;
+        transform: translateY(-3px);
+    }
+
+
+/* Эффект для картинки */
+.main-img {
+    max-height: 200px;
+    width: auto;
+    object-fit: contain;
+    border: none;
+    box-shadow: none;
+}
+
+.image-wrapper {
+    position: relative;
+    padding: 50px;
+}
+
+
+.btn-save-custom {
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-save-custom:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-add-custom {
+    background-color: #198754;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.btn-action-edit, .btn-action-delete {
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+.btn-action-edit {
+    background-color: #f0f4ff;
+    color: #4c6ef5;
+    border-color: #dbe4ff;
+}
+
+.btn-action-edit:hover {
+    background-color: #4c6ef5;
+    color: #ffffff;
+}
+
+.btn-action-delete {
+    background-color: #fff5f5;
+    color: #fa5252;
+    border-color: #ffe3e3;
+    margin-left: 5px;
+}
+
+.btn-action-delete:hover {
+    background-color: #fa5252;
+    color: #ffffff;
+}
+
+table.dataTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.dataTable td {
+    vertical-align: middle;
+}
+
+table.dataTable td,
+table.dataTable th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.dataTable td:nth-child(6) {
+         white-space: normal;
+         min-width: 150px;
+      
+}
+
+ .btn-group-actions {
+        display: flex;
+        gap: 5px;
+        white-space: nowrap;
+ }
+
+.btn-action-edit, .btn-action-delete {
+    padding: 2px 8px;
+    font-size: 0,85rem;
+}
+
+#bookTable {
+    width: 100% !important;
+    table-layout: fixed;
+}
+
+#bookTable td,
+#bookTable th {
+    word-break: break-word;
+}
+
+#bookTable td:nth-child(1),
+#bookTable td:nth-child(2),
+#bookTable td:nth-child(6)
+{
+    white-space: normal !important;
+}
+
+.book-image-wrapper {
+    width: 100%;
+    height: auto; 
+    overflow: hidden;
+    background-color: transparent;
+}
+
+    .book-image-wrapper img {
+        width: 100%;
+        height: auto; 
+        max-height: 360px; 
+        object-fit: contain;
+        object-position: bottom center; 
+        display: block;
+    }
+
+.book-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+}
+
+
+    .book-card .card-body {
+        flex-grow: 1;
+    }
+  
+    .book-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+
+
+    .book-card .card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .book-card .card-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+
+.book-summary {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 8px;
+    height: 2.5rem;
+}
+
+/* Structura principală pe două coloane */
+#wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Stilul general al Sidebar-ului din stânga */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #f8f9fa !important; /* Fundal gri-deschis modern */
+    border-right: 1px solid #dee2e6;
+    padding-top: 10px;
+}
+
+    /* Titlul principal din Sidebar */
+    #sidebar .sidebar-heading {
+        font-size: 1.1rem;
+        color: #212529;
+        letter-spacing: 0.5px;
+    }
+
+    /* Lista de elemente / meniuri */
+    #sidebar ul.components {
+        padding: 20px 0;
+        list-style: none;
+    }
+
+    #sidebar ul li {
+        width: 100%;
+    }
+
+        /* Link-urile (butoanele) din Sidebar */
+        #sidebar ul li a {
+            display: block;
+            padding: 12px 20px;
+            color: #495057 !important;
+            text-decoration: none !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+            /* Efectul de Hover */
+            #sidebar ul li a:hover {
+                background-color: #e9ecef;
+                color: #000000 !important;
+            }
+
+            /* Pagina curentă/activă (Verdele minimalist) */
+            #sidebar ul li a.nav-link-ajax.active {
+                background-color: #d1e7dd !important; /* Fundal fin de succes */
+                color: #0f5132 !important;
+                font-weight: bold;
+                border-left: 4px solid #198754; /* Dungă verde pronunțată */
+            }
+
+/* Zona centrală de conținut din dreapta unde stă tabelul */
+#page-content-wrapper {
+    flex-grow: 1;
+    padding: 25px;
+    background-color: #ffffff;
+}
+
+#wrapper.toggled #sidebar {
+    margin-left: -250px;
+}
+    /*
+#wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: 250px;
+    background-color: #fdfbf7;
+    border-right: 1px solid #e6e1da;
+    transition: margin .25s ease-out;
+}
+
+    #sidebar-wrapper .sidebar-heading {
+        padding: 1.5rem 1.25rem;
+        font-family: 'Playfair Display', serif;
+        font-size: 1.25rem;
+        color: #2b2b2b;
+        border-bottom: 1px solid #e6e1da;
+    }
+
+    #sidebar-wrapper .list-group-item {
+        padding: 1rem 1.5rem;
+        background-color: transparent;
+        color: #6c757d;
+        border: none;
+        transition: all 0.2s;
+    }
+
+        #sidebar-wrapper .list-group-item:hover,
+        #sidebar-wrapper .list-group-item.active {
+            color: #dc3545;
+            background-color: #ffe8e8;
+            font-weight: bold;
+        }
+
+#page-content-wrapper {
+    width: 100%;
+    padding: 2rem;
+}
+
+#wrapper.toggled #sidebar {
+    margin-left: -250px;
+}*/

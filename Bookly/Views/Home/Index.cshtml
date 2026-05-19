@@ -1,0 +1,38 @@
+﻿@{
+   Layout = "_Layout";
+   ViewData["Title"] = "Home Page";
+}
+
+<section class="hero-partial-overlay py-5">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+
+            <div class="col-lg-6 z-index-2">
+                <div class="content-box p-lg-5 p-4 shadow-sm">
+                    <h1 class="display-3 fw-bold">Bookly</h1>
+                    <h3 class="text-muted mb-4">A world of Books, Yours.</h3>
+                    <p class="lead mb-5">
+                        Thousand of books for every taste and age.
+                        Find the story that inspires, teaches, and stays with you.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a asp-controller="Books" asp-action="Index" class="btn-visit">Visit Our Store</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 offset-lg-5 position-absolute end-0 d-none d-lg-block">
+                <div class="image-stack position-relative">
+                    <img src="~/images/photo_library.jpg" class="img-fluid rounded-3 shadow-lg main-img-overlay" alt="Library">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+  
+
+    

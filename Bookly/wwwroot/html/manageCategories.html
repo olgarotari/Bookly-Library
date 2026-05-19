@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Manage Categories</title>
+
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <link rel="stylesheet" href="/css/custom.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>-->
+
+    <script src="/js/manageCategories.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-success mb-3" onclick="openEditCategoryModal()">
+            <i class="bi bi-plus-circle"></i> Add New Category
+        </button>       
+
+
+
+        <table id="categoriesTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <!--<th>ID</th>-->
+                    <th>Category Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+
+
+        <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="categoryModalTitle">Add New Category{{editId}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Category Name</label>
+                            <input type="text" id="categoryInput" class="form-control" placeholder="Category Name">
+                            <datalist id="categoryList"></datalist>
+                            <input type="hidden" id="authorId">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" onclick="saveCategory()">Save Category</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>

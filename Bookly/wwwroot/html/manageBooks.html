@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Manage Books</title>
+
+    <script src="/js/manageBooks.js"></script>
+
+</head>
+<body>
+    <div class="container mt-5">
+        <button type="button" class="btn btn-success mb-3" onclick="openEditBookModal()">
+            <i class="bi bi-plus-circle"></i> Add New Book
+        </button>
+
+        <table id="bookTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>AuthorName</th>
+                    <th>CategoryName</th>
+                    <th>Quantity</th>
+                    <th>IsBorrowed</th>
+                    <th>Summary</th>
+                    <th>Book Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="bookModalTitle">Add Book{{editId}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="bookForm">
+                            <input type="hidden" id="bookId">
+
+                            <div class="mb-3">
+                                <label class="form-label">Book Title</label>
+                                <input type="text" id="titleInput" class="form-control" list="titleList" placeholder="Enter title">
+                                <datalist id="titleList"></datalist>
+                                <input type="hidden" id="titleId">
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Author</label>
+                                    <select id="authorSelect" class="form-select select2-setup" style="width: 100%;">
+                                    <option value="">Select an author...</option>
+                                    </select>
+                                    </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Category </label>
+                                    <select id="categorySelect" class="form-select select2-setup" style="width: 100%;">
+                                        <option value="">Select a category...</option>
+                                    </select>
+
+                                </div>
+                                </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" id="quantityInput" class="form-control" >
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select id="isBorrowedInput" class="form-select" placeholder="Select status..">
+                                        <option value="false">Available</option>
+                                        <option value="true">Borrowed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Summary</label>
+                                <textarea id="summaryInput" class="form-control" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Book Image</label>
+                                <input type="file" id="bookImageInput" class="form-control" accept="image/*">
+                                <!--<input type="text" id="imageUrl" class="form-control mt-2" >-->
+                            </div>
+                            <div>
+                                <img src="#" id="imageUrl" style="width:50px"></img>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-add-custom" onclick="saveBook()">Save Book</button>
+                    </div>
+
+                </div>
+                 
+            </div>
+        </div>
+
+   
+    </div>
+</body>
+</html>

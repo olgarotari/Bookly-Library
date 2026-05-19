@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Manage Borrows</title>
+
+   
+
+    <script src="/js/manageBorrows.js"></script>
+</head>
+<body>
+    <div class="container mt-5">       
+ 
+        <button type="button" class="btn btn-success mb-3" onclick="openEditBorrowModal()">
+            <i class="bi bi-plus-circle"></i> Add New Borrow
+        </button>
+
+        <table id="borrowsTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>Book Title</th>
+                    <th>BorrowDate</th>
+                    <th>ReturnDate</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="borrowModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="borrowModalTitle">Add Borrow {{editId}}</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                     </div>
+
+                     <div class="modal-body">
+                         <form id="borrowForm">
+                             <input type="hidden" id="borrowId">
+
+                             <div class="mb-3">
+                                 <label class="form-label">User</label>
+                                 <select id="userSelect" class="form-select" style="width:100%";>
+                                     <option value="">Search user...</option>
+                                 </select>
+                             </div>
+
+                             <div class="mb-3">
+                                 <label class="form-label">Book</label>
+                                 <select id="bookSelect" class="form-select" style="width:100%" ;>
+                                     <option value="">Search book...</option>
+                                 </select>
+
+                             <div class="mb-3">
+                                 <label class="form-label">Borrow Date</label>
+                                 <input type="date" class="form-control" id="borrowDate" required>
+                             </div>
+
+                             <div class="mb-3">
+                                 <label class="form-label">Return Date</label>
+                                 <input type="date" class="form-control" id="returnDate" >
+                             </div>
+                         </form>
+                     </div>
+
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         <button type="button" class="btn btn-success" onclick="saveBorrow()">Save Changes</button>
+                     </div>
+                 </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

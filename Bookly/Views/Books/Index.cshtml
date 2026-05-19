@@ -1,0 +1,49 @@
+﻿
+
+@{
+    ViewData["Title"] = "Our Library";
+}
+
+<div class="container-fluid mt-4 px-4">
+    <div class="row g-4">
+
+        <div class="col-12 col-md-3">
+            <div class="p-3 rounded shadow-sm" style="background-color: #fdfbf7; border: 1px solid #e6e1da; max-height: 85vh; overflow-y: auto;">
+                <h5 class="fw-bold mb-3 pb-2 border-bottom" style="color: #2b2b2b; font-family: 'Playfair Display', serif;">
+                    Categories
+                </h5>
+
+               <div class="d-flex flex-column gap-1 text-start" id="categoriesContainer">
+               </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9">
+            <!--<h3 class="mb-4 fw-bold text-dark" style="font-family: 'Playfair Display', serif;" id="collectionTitle">
+                All Books
+            </h3>-->
+
+            <div id="userBooksGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-labelledby="bookDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0" style="border-radius: 15px; background-color: #fbf9f6; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-o px-4 pb-4">
+                    <div class="row g-4" id="modalBookContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/userBooks.js"></script>
+
