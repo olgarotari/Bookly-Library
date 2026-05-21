@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\samsung\\source\\repos\\Bookly.ViewModels\\Bookly.ViewModels.csproj": {}
+    "C:\\Users\\samsung\\OneDrive\\Desktop\\GItProj\\Bookly.ViewModels\\Bookly.ViewModels.csproj": {}
   },
   "projects": {
-    "C:\\Users\\samsung\\source\\repos\\Bookly.ViewModels\\Bookly.ViewModels.csproj": {
+    "C:\\Users\\samsung\\OneDrive\\Desktop\\GItProj\\Bookly.ViewModels\\Bookly.ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samsung\\source\\repos\\Bookly.ViewModels\\Bookly.ViewModels.csproj",
+        "projectUniqueName": "C:\\Users\\samsung\\OneDrive\\Desktop\\GItProj\\Bookly.ViewModels\\Bookly.ViewModels.csproj",
         "projectName": "Bookly.ViewModels",
-        "projectPath": "C:\\Users\\samsung\\source\\repos\\Bookly.ViewModels\\Bookly.ViewModels.csproj",
+        "projectPath": "C:\\Users\\samsung\\OneDrive\\Desktop\\GItProj\\Bookly.ViewModels\\Bookly.ViewModels.csproj",
         "packagesPath": "C:\\Users\\samsung\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\samsung\\source\\repos\\Bookly.ViewModels\\obj\\",
+        "outputPath": "C:\\Users\\samsung\\OneDrive\\Desktop\\GItProj\\Bookly.ViewModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
