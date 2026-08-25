@@ -1,5 +1,4 @@
 ﻿using Bookly.Data.Models;
-using Bookly.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,11 @@ namespace Bookly.Data.Repositories
         Task AddAsync(Borrow borrow);
         Task Update(Borrow borrow);
         Task Create(Borrow borrow);
-        Borrow GetActiveBorrow(int bookId); 
+        Task<BookCopy?> GetFirstAvailableCopyAsync(int bookId);
+        Borrow GetActiveBorrow(int bookId);
+        Task<Borrow?> GetActiveBorrowByIdAsync(int borrowId);
+        Task<List<Borrow>> GetActiveBorrowsByUserIdAsync(int userId);
+        Task<List<Borrow>> GetBorrowHistoryByUserIdAsync(int userId);
         void Delete(Borrow borrow);
         Task SaveAsync();
 

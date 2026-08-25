@@ -4,6 +4,8 @@
     ViewData["Title"] = "Our Library";
 }
 
+
+
 <div class="container-fluid mt-4 px-4">
     <div class="row g-4">
 
@@ -29,12 +31,17 @@
 
     </div>
 
+
     <div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-labelledby="bookDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content border-0" style="border-radius: 15px; background-color: #fbf9f6; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <div class="modal-header border-0 pb-0">
+            <div class="modal-content border-0" style="position: relative; border-radius: 15px; background-color: #fbf9f6; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div style="position: absolute; top: 15px; right: 20px; z-index: 1050; display: flex; align-items: center; gap: 12px;">
+                    <button type="button" class="btn border-0 bg-transparent p-0" id="btnFavoriteModal">
+                        <i id="favoriteHeartIcon" class="bi bi-heart fs-4"></i>
+                    </button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+               
                 <div class="modal-body pt-o px-4 pb-4">
                     <div class="row g-4" id="modalBookContent"></div>
                 </div>

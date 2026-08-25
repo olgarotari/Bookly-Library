@@ -11,5 +11,6 @@ namespace Bookly.Data.Repositories
         void Delete(Book book);
         Task SaveAsync();
         Task<List<Book>> SearchByTermAsync(string term);
+        Task<IEnumerable<Book>> LiveSearchBookAsync(string term);
     }
 }

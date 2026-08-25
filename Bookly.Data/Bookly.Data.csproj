@@ -12,9 +12,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <ProjectReference Include="..\Bookly.ViewModels\Bookly.ViewModels.csproj" />
-  </ItemGroup>
+  </ItemGroup>-->
 	
 
 

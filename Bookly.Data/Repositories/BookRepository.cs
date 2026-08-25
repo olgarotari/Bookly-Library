@@ -21,17 +21,18 @@ namespace Bookly.Data.Repositories
             return await _context.Books
                 .Include(b => b.Author)
                 .Include(b => b.Category)
+                .Include(b => b.BookCopies)
                 .ToListAsync();
         }
 
-        public async Task<Book?> GetByIdAsync(int id)
+        public async Task<Book?> GetByIdAsync(int id)  
         {
             return await _context.Books
-              
+
               .Include(b => b.Author)
               .Include(b => b.Category)
               .FirstOrDefaultAsync(b => b.Id == id);
-                
+
         }
 
         public void AddBook(Book book)
@@ -58,9 +59,34 @@ namespace Bookly.Data.Repositories
         public async Task<List<Book>> SearchByTermAsync(string term)
         {
             return await _context.Books
-                .Where(b => b.Title.Contains(term) ||         
+                .Where(b => b.Title.Contains(term) ||
                             b.Summary.Contains(term))
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> LiveSearchBookAsync(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.Category)
+                .ToListAsync();
+            }
+
+            var lowerTerm = term.Trim().ToLower();
+
+            return await _context.Books
+                .Include(b => b.Author)
+                .Include(b => b.Category)
+                .Where(b => (b.Title != null && b.Title.ToLower().Contains(lowerTerm)) ||
+                    (b.Author != null && b.Author.Name.ToLower().Contains(lowerTerm)) ||
+                    (b.Category != null && b.Category.Name.ToLower().Contains(lowerTerm)) ||
+                    (b.Summary != null && b.Summary.ToLower().Contains(lowerTerm)))
+                .ToListAsync();
+
+
+
         }
     }
 }

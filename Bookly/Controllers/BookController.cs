@@ -7,7 +7,7 @@ namespace Bookly.Controllers
 {
     [ApiController]
     [Route("api/book")]
-    public class BookController : ControllerBase
+    public class BookController : Controller /*ControllerBase*/
     {
         private readonly IBookService _bookService;
         public BookController(IBookService bookService)
@@ -27,7 +27,14 @@ namespace Bookly.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var book = await _bookService.GetByIdAsync(id);
+            var userIdClaim = User.FindFirst(
+                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+            var userId = int.Parse(userIdClaim);
+
+            var book = await _bookService.GetByIdAsync(id, userId);
             
             if (book == null)
             {
@@ -49,6 +56,29 @@ namespace Bookly.Controllers
             return Ok(result);
         }
 
+        [HttpGet("live-search")]
+        public async Task<IActionResult> LiveSearch([FromQuery] string? term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return Ok(new List<object>());
+            }
+
+            var books = await _bookService.LiveSearchBookAsync(term);
+            var result = books.Select(b => new
+            {
+                id = b.Id,
+                title = b.Title,
+                authorName = b.Author != null ? b.Author.Name : "Unknown Author",
+                categoryName = b.Category != null ? b.Category.Name : "General",
+                summary = string.IsNullOrEmpty(b.Summary) ? "There is no available summary for this book." : b.Summary,
+                imageUrl = string.IsNullOrEmpty(b.ImageUrl) ? "/images/books/default.jpg" : b.ImageUrl,
+                //isBorrowed = b.IsBorrowed
+            });
+
+            return Ok(result);
+        }
+       
 
 
         [HttpPost]
@@ -111,6 +141,12 @@ namespace Bookly.Controllers
                 return NotFound($"Cannot delete: Book with ID {id} not found.");
 
             return Ok($"Book with ID {id} deleted successfully.");
+        }
+
+        [HttpGet("/Books")]
+        public IActionResult Index()
+        {
+            return View("~/Views/Books/Index.cshtml");
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Bookly.Data.Repositories
         ApplicationUser GetByEmailAndPass(string email, string password);
 
         Task<ApplicationUser> GetByIdAsync(int id);
+       
         void Add(ApplicationUser newUser);
 
         void Delete(ApplicationUser user);
