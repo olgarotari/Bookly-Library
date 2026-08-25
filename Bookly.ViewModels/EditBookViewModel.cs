@@ -28,6 +28,8 @@ namespace Bookly.ViewModels
         [Range(0, 1000)]
         public int Quantity { get; set; }
 
+        public string QuantityDisplay { get; set; }
+
         public bool IsBorrowed { get; set; }
 
         public string Summary { get; set; }

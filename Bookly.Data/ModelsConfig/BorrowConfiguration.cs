@@ -17,9 +17,9 @@ namespace Bookly.Data.ModelsConfig
                 .HasForeignKey(b => b.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasOne(b => b.Book)
+            entity.HasOne(b => b.BookCopy)
                 .WithMany(book => book.Borrows)
-                .HasForeignKey(b =>b.BookId)
+                .HasForeignKey(b =>b.BookCopyId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             entity.Property(b => b.BorrowDate)

@@ -19,8 +19,10 @@ namespace Bookly.Data.Models
 
         public virtual Author Author { get; set; }
         public virtual Category Category {  get; set; }
-        public List<Borrow> Borrows { get; set; } = new List<Borrow>(); 
-        public bool IsBorrowed { get; set; } = false;
+
+        public List<BookCopy> BookCopies { get; set; } = new List<BookCopy>();
+       // public List<Borrow> Borrows { get; set; } = new List<Borrow>(); 
+       // public bool IsBorrowed { get; set; } = false;
 
         public string Summary { get; set; }
         public string? ImageUrl { get; set; }

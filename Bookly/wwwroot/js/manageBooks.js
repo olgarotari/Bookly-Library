@@ -49,7 +49,7 @@ function loadBookTable() {
             { "data": "title" },
             { "data": "authorName" },
             { "data": "categoryName" },
-            { "data": "quantity" },
+            { "data": "quantityDisplay" },
             {
                 "data": "isBorrowed",
                 "render": function (data) {
@@ -177,7 +177,7 @@ function saveBook() {
     }
 
     function executeSaveBook(imageUrl) {
-        debugger;
+       
         var id = $('#bookId').val();
         var titleInput = $('#titleInput').val();
         var authorId = $('#authorSelect').val();

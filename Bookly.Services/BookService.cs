@@ -12,41 +12,52 @@ namespace Bookly.Services
     public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
-        public BookService(IBookRepository bookRepository)
+        private readonly IBookCopyRepository _bookCopyRepository;
+        private readonly IFavoriteRepository _favoriteRepository;
+        public BookService(IBookRepository bookRepository, IBookCopyRepository bookCopyRepository, IFavoriteRepository favoriteRepository)
         {
             _bookRepository = bookRepository;
+            _bookCopyRepository = bookCopyRepository;
+            _favoriteRepository = favoriteRepository;
         }
 
         //Get All
         public async Task<List<BookViewModel>> GetAllAsync()
         {
             var books = await _bookRepository.GetAllAsync();
+            return books.Select(b =>
+            { 
+                int available = b.BookCopies != null ? b.BookCopies.Count(copy => copy.IsAvailable) : 0;
+                int total = b.Quantity;
 
-            return books.Select(b => new BookViewModel
-            {
-                Id = b.Id,
-                Title = b.Title,
-                AuthorId = b.AuthorId,
-                AuthorName = b.Author.Name,
-                CategoryId = b.CategoryId,
-                CategoryName = b.Category.Name,
-                //AuthorName = b.Author?.Name ?? "Fara autor", 
-                //CategoryName = b.Category?.Name ?? "Fara Categorie",
-                Quantity = b.Quantity,
-                IsBorrowed = b.IsBorrowed,
-                Summary = b.Summary,
-                ImageUrl = b.ImageUrl
+                return new BookViewModel
+                {
+
+
+                    Id = b.Id,
+                    Title = b.Title,
+                    AuthorId = b.AuthorId,
+                    AuthorName = b.Author.Name,
+                    CategoryId = b.CategoryId,
+                    CategoryName = b.Category.Name,
+                    Quantity = available,
+                    QuantityDisplay = $"{available} / {total}",
+                    Summary = b.Summary,
+                    ImageUrl = b.ImageUrl,
+                };
 
             }).ToList();
         }
 
         //Get by Id
-        public async Task<BookViewModel?> GetByIdAsync(int id)
+        public async Task<BookViewModel?> GetByIdAsync(int id, int userId)
         {
             var book = await _bookRepository.GetByIdAsync(id);
 
             if (book == null)
                 return null;
+
+            var isFavorite = await _favoriteRepository.IsFavoriteAsync(userId, id);
 
             return new BookViewModel
             {
@@ -57,9 +68,10 @@ namespace Bookly.Services
                 CategoryId = book.CategoryId,
                 CategoryName = book.Category.Name,
                 Quantity = book.Quantity,
-                IsBorrowed = book.IsBorrowed,
+               // IsBorrowed = book.IsBorrowed,
                 Summary = book.Summary,
-                ImageUrl = book.ImageUrl
+                ImageUrl = book.ImageUrl,
+                IsFavorite = isFavorite,
             };
 
         }
@@ -79,11 +91,27 @@ namespace Bookly.Services
                 AuthorId = model.AuthorId,
                 CategoryId = model.CategoryId,
                 Quantity = model.Quantity,
-                IsBorrowed = model.IsBorrowed,
+                //IsBorrowed = model.IsBorrowed,
                 Summary = model.Summary,
                 ImageUrl = model.ImageUrl
             };
             _bookRepository.AddBook(book);
+            _bookRepository.SaveAsync().Wait();
+
+            for (int i = 0; i < model.Quantity; i++)
+            {
+                var newCopy = new BookCopy
+                {
+                    BookId = book.Id,
+                    IsAvailable = true,
+                    InventoryNumber = $"INV-{book.Id}-{i + 1}"
+                    
+                };
+
+                _bookCopyRepository.UpdateAsync(newCopy).Wait();
+            }
+
+            _bookRepository.SaveAsync().Wait();
         }
 
         //Update
@@ -101,7 +129,7 @@ namespace Bookly.Services
             book.AuthorId = model.AuthorId;
             book.CategoryId = model.CategoryId;
             book.Quantity = model.Quantity;
-            book.IsBorrowed = model.IsBorrowed;
+            //book.IsBorrowed = model.IsBorrowed;
             book.Summary = model.Summary;
             book.ImageUrl = model.ImageUrl;
 
@@ -121,6 +149,13 @@ namespace Bookly.Services
 
             return await _bookRepository.SearchByTermAsync(term);
         }
+
+        //Live search
+        public async Task<IEnumerable<Book>> LiveSearchBookAsync(string term)
+        {
+            return await _bookRepository.LiveSearchBookAsync(term);
+        }
+
 
         //Delete
         public async Task<bool> DeleteAsync(int id)

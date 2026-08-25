@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\Bookly.Data\Bookly.Data.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -1,0 +1,269 @@
+﻿
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+
+<link rel="stylesheet" href="~/css/custom.css">
+
+
+
+
+<div class="container-fluid my-4">
+    <div class="row g-4">
+
+        <!-- 1. Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            <div class="sidebar-card">
+                @* <h3 class="fw-bold mb-4 px-2">Bookly</h3> *@
+                <h4 class="fw-bold mb-4 ps-2 text-white">Bookly</h4>
+
+
+                <div class="nav flex-column gap-2" id="v-pills-tab" role="tablist">
+                    <button class="sidebar-btn active" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button">Profile</button>
+                    <button class="sidebar-btn" id="v-pills-borrows-tab" data-bs-toggle="pill" data-bs-target="#v-pills-borrows" type="button">My Borrows</button>
+                    <button class="sidebar-btn" id="v-pills-history-tab" data-bs-toggle="pill" data-bs-target="#v-pills-history" type="button">History</button>
+                    <button class="sidebar-btn" id="v-pills-favorites-tab" data-bs-toggle="pill" data-bs-target="#v-pills-favorites" type="button">Favorites</button>
+                    <button class="sidebar-btn" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button">Settings</button>
+                </div>
+                <div class="mt-auto pt-4 border-top border-white border-opacity-25">
+                    <form action="/api/Authentication/logout" method="post">
+                        <button type="submit" class="sidebar-btn logout-btn-blue d-flex align-items-center gap-2">
+                            <i class="bi bi-box-arrow-right"></i> 
+                            <span>Log Out</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Zona Principală din Dreapta -->
+        <div class="col-md-9 col-lg-10">
+           <div class="tab-content" id="v-pills-tabContent">
+
+                <!-- TAB 1: PROFILE -->
+             <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
+
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="position-relative">
+                            <img id="avatarImg"
+                                 src="@(string.IsNullOrEmpty(Model.AvatarUrl) ? "/images/default-avatar.png" : Model.AvatarUrl)"
+                                 class="rounded-circle object-fit-cover border"
+                                 style="width: 90px; height: 90px;" />
+
+
+                            <label for="avatarInput" class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0 p-1 shadow" style="cursor: pointer;">
+                                📷
+                            </label>
+                            <input type="file" id="avatarInput" class="d-none" accept="image/*" />
+                        </div>
+
+                        <div>
+                            <h2 class="fw-bold mb-1">@Model.UserName</h2>
+                            <p class="text-muted mb-2">@Model.Email</p>
+                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1">
+                                Active Reader
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 bg-light">
+                            <small class="text-muted fw-semibold">📚 Împrumuturi Active</small>
+                            <div class="fs-2 fw-bold text-dark mt-1">@Model.ActiveBorrowsCount</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 bg-light">
+                            <small class="text-muted fw-semibold">❤️ Cărți Favorite</small>
+                            <div class="fs-2 fw-bold text-dark mt-1">@Model.FavoritesCount</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 bg-light">
+                            <small class="text-muted fw-semibold">✅ Cărți Returnate</small>
+                            <div class="fs-2 fw-bold text-dark mt-1">@Model.HistoryCount</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h5 class="fw-bold mb-3">Recent Activity</h5>
+
+                    @if (Model.UrgentBorrow != null)
+                    {
+                        <!-- Dacă are o carte împrumutată, arătăm doar atenționarea principală -->
+                        <div class="p-3 border rounded-3 bg-warning bg-opacity-10 border-warning border-opacity-25 d-flex align-items-center justify-content-between">
+                            <div>
+                                <div class="fw-bold text-dark">⚠️ Carte aflată la tine: "@Model.UrgentBorrow.BookTitle"</div>
+                                <small class="text-muted">Termen de returnare: @Model.UrgentBorrow.ReturnDeadline.ToString("dd.MM.yyyy")</small>
+                            </div>
+                            <!-- Buton care mută focusul pe secțiunea My Borrows -->
+                            <button class="btn btn-sm btn-outline-dark rounded-pill px-3" onclick="$('#btn-tab-borrows').click();">
+                                Vezi toate împrumuturile
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">Nu ai nicio alertă sau împrumut activ în acest moment.</p>
+                    }
+                </div>
+           
+             </div>
+
+       
+             
+
+                <!-- TAB 2: MY BORROWS -->
+                <div class="tab-pane fade" id="v-pills-borrows" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4">
+                        <h5 class="fw-bold mb-4">My Borrowed Books</h5>
+
+                        @if (Model.ActiveBorrows == null || Model.ActiveBorrows.Count == 0)
+                        {
+                            <div class="text-center py-5 text-muted">
+                                <i class="bi bi-journal-x display-4 d-block mb-2 text-secondary"></i>
+                                <p class="mb-0">Nu ai nicio carte împrumutată în prezent.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row g-3">
+                                @foreach (var borrow in Model.ActiveBorrows)
+                                {
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card h-100 border-0 bg-light rounded-3 p-3 d-flex flex-column">
+
+                                            <!-- Rândul 1: Titlul și Badge-ul aliniate la capete -->
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="fw-bold mb-0 me-2 text-break">@borrow.BookCopy?.Book?.Title</h6>
+
+                                                @if (borrow.Status == "Overdue")
+                                                {
+                                                    <span class="badge bg-danger flex-shrink-0">În întârziere</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-success flex-shrink-0">Activ</span>
+                                                }
+                                            </div>
+
+                                            <!-- Rândul 2: Autorul (pe linie separată) -->
+                                            <p class="text-muted small mb-3">de @borrow.BookCopy?.Book?.Author?.Name</p>
+
+                                            <!-- Rândul 3: Data și Butonul (lipite jos de tot) -->
+                                            <div class="mt-auto pt-2 border-top d-flex justify-content-between align-items-center">
+                                                <div class="small text-muted me-2">
+                                                    <span>Data returnării:</span><br />
+                                                    <strong class="@(borrow.Status == "Overdue" ? "text-danger" : "text-dark")">
+                                                        @borrow.DueDate.ToString("dd MMM yyyy")
+                                                    </strong>
+                                                </div>
+
+                                                <button class="btn btn-sm btn-outline-danger text-nowrap" onclick="returnBook(@borrow.Id)">
+                                                    Return
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                               
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                
+                <!-- TAB 3: HISTORY -->
+                <div class="tab-pane fade" id="v-pills-history" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4">
+                        <h5 class="fw-bold mb-3">Reading History</h5>
+
+                        @if (Model.BorrowHistory.Count == 0)
+                        {
+                            <div class="text-center py-4">
+                                <i class="bi bi-clock-history display-4 text-muted mb-2"></i>
+                                <p class="text-muted mb-0">Nu ai nicio carte returnată în istoric.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row g-3">
+                                @foreach (var borrow in Model.BorrowHistory)
+                                {
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card h-100 border-0 bg-light rounded-3 p-3 d-flex flex-column opacity-75">
+
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h6 class="fw-bold mb-0 me-2 text-break">@borrow.BookCopy?.Book?.Title</h6>
+                                                <span class="badge bg-secondary flex-shrink-0">Returnată</span>
+                                            </div>
+
+                                            <p class="text-muted small mb-3">de @borrow.BookCopy?.Book?.Author?.Name</p>
+
+                                            <div class="mt-auto pt-2 border-top small text-muted">
+                                                <div class="d-flex justify-content-between">
+                                                    <span>Împrumutată:</span>
+                                                    <span class="fw-semibold text-dark">@borrow.BorrowDate.ToString("dd MMM yyyy")</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between mt-1">
+                                                    <span>Returnată la:</span>
+                                                    <span class="fw-semibold text-success">@borrow.ReturnDate?.ToString("dd MMM yyyy")</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+
+                <!-- TAB 4: FAVORITES -->
+                <div class="tab-pane fade" id="v-pills-favorites">
+                    <div class="card p-4 border-0 shadow-sm">
+                        <h4 class="mb-3 fw-bold">Favorite Books</h4>
+                        <div id="favoritesContainer">
+                            <!-- Aici se încarcă cardurile din JS -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- TAB 5: SETTINGS -->
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel">
+                    <div class="card border-0 shadow-sm rounded-4 p-4">
+                        <h5 class="fw-bold mb-3">Account Settings</h5>
+                        <form class="settings-form">
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" value="@User.Identity?.Name" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">New Password</label>
+                                <input type="password" class="form-control" placeholder="••••••••" />
+                            </div>
+                            <button type="button" class="btn btn-dark rounded-pill px-4">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+           </div>
+        </div>
+        
+
+    </div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/userBooks.js"></script>
+    <script src="~/js/favorites.js"></script>
+
+      

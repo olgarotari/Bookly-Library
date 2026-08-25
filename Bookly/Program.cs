@@ -30,11 +30,19 @@ builder.Services.AddScoped<IBorrowService, BorrowService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<IBookCopyRepository, BookCopyRepository>();
+
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+//builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Authentication/Login";
     });
+
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BooklyDbContext>();
 

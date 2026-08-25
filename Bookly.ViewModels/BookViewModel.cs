@@ -13,7 +13,8 @@ namespace Bookly.ViewModels
         public string AuthorName { get; set; }
 
         public string CategoryName {  get; set; }
-
+        
+        public bool IsFavorite { get; set; }
 
     }
 }

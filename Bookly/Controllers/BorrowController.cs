@@ -1,6 +1,7 @@
 ﻿using Bookly.Services;
 using Bookly.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Bookly.Controllers
 {
@@ -59,13 +60,59 @@ namespace Bookly.Controllers
         }
 
 
+        [HttpPost("borrow")]
+        public async Task<IActionResult> BorrowBook([FromBody] BorrowDto dto)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+            {
+                // Întoarce obiect JSON, nu doar Unauthorized() simplu
+                return Unauthorized(new { message = "Trebuie să fii logat!" });
+            }
+
+            try
+            {
+                await _borrowService.BorrowBookAsync(userId, dto.BookCopyId);
+                return Ok(new { message = "Succes" });
+            }
+            catch (Exception ex)
+            {
+                // Întoarce obiect JSON cu mesajul de eroare
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("return/{id}")]
+        public async Task<IActionResult> ReturnBorrow(int id)
+        {
+            var success = await _borrowService.ReturnBorrowAsync(id);
+            if (!success)
+            {
+                return NotFound("Împrumutul nu a fost găsit sau a fost deja returnat.");
+            }
+
+            return Ok(new { message = "Cartea a fost returnată cu succes." });
+        }
+
+
 
         [HttpPatch("{id}/return")]
-        public async Task<IActionResult> Return(int bookId)
+        public async Task<IActionResult> ReturnBook(int id)
         {
-            await _borrowService.ReturnBookAsync(bookId);
-            return Ok();
+            try
+            {
+                string message = await _borrowService.ReturnBookAsync(id);
 
+                return Ok(new { message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "A apărut o eroare la procesarea returnării." });
+            }
         }
 
 

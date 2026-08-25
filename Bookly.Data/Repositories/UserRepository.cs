@@ -45,6 +45,15 @@ namespace Bookly.Data.Repositories
 
         }
 
+        //public async Task<Borrow?> GetMostUrgentBorrowByUserIdAsync(int userId)
+        //{
+        //    return await _context.Borrows
+        //        .Include(b => b.BookCopy)
+        //        .Where(b => b.UserId == userId && b.ReturnDate == null)
+        //        .OrderBy(b => b.DueDate)
+        //        .FirstOrDefaultAsync();
+        //}
+
         public void Add(ApplicationUser newUser)
         {
             _context.Users.Add(newUser);

@@ -1,9 +1,11 @@
 ﻿
 let allBooks = [];
+let clickedBook =null;
 
 $(document).ready(function () {
     loadUserBooks();
     loadCategories();
+    
 
 });
 
@@ -138,23 +140,30 @@ $(document).on('click', '.category-btn', function () {
     $(document).on('click', '.view-details-btn', function () {
         const idSelected = $(this).attr('data-id');
 
-       
-        const clickedBook = allBooks.find(b => (b.id || b.Id).toString() === idSelected.toString());
+
+
+
+            const clickedBook = allBooks.find(b => (b.id || b.Id).toString() === idSelected.toString());
 
         if (clickedBook) {
-            const title = clickedBook.title || clickedBook.Title || 'Unknown Title';
-            const imageUrl = clickedBook.imageUrl || clickedBook.ImageUrl || '';
-            const authorName = clickedBook.authorName || clickedBook.AuthorName || 'Unknown Author';
-            const genre = clickedBook.categoryName || clickedBook.CategoryName || clickedBook.genre || clickedBook.Genre || 'General';
-            const description = clickedBook.summary || clickedBook.Summary || clickedBook.description || clickedBook.Description || 'Nu există o descriere disponibilă pentru această carte.';
-            const isBorrowed = clickedBook.isBorrowed || clickedBook.IsBorrowed || false;
-            const isAvailable = isBorrowed === false || isBorrowed === "false";
-            const statusBadge = isAvailable
-                ? '<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">Available in the library</span>'
-                : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">Currently borrowed</span>';
+                currentBookId = clickedBook.id || clickedBook.Id;
+                const bookId = clickedBook.id || clickedBook.Id;
+                const title = clickedBook.title || clickedBook.Title || 'Unknown Title';
+                const imageUrl = clickedBook.imageUrl || clickedBook.ImageUrl || '';
+                const authorName = clickedBook.authorName || clickedBook.AuthorName || 'Unknown Author';
+                //const isFav = clickedBook.isFavorite === true || clickedBook.IsFavorite === true;
+                //const isFav = clickedBook.isFavorite || clickedBook.IsFavorite || true;
+                //const isFav = Boolean(clickedBook.isFavorite || clickedBook.IsFavorite);
+                const genre = clickedBook.categoryName || clickedBook.CategoryName || clickedBook.genre || clickedBook.Genre || 'General';
+                const description = clickedBook.summary || clickedBook.Summary || clickedBook.description || clickedBook.Description || 'Nu există o descriere disponibilă pentru această carte.';
+                const isBorrowed = clickedBook.isBorrowed || clickedBook.IsBorrowed || false;
+                const isAvailable = isBorrowed === false || isBorrowed === "false";
+                const statusBadge = isAvailable
+                    ? '<span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">Available in the library</span>'
+                    : '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">Currently borrowed</span>';
 
-            
-            const modalHtml = `
+
+                const modalHtml = `
             <div class="col-md-5 text-center">
                 <img src="${imageUrl}" class="img-fluid rounded shadow-sm" alt="${title}" style="max-height: 380px; object-fit: contain;">
             </div>
@@ -164,6 +173,7 @@ $(document).on('click', '.category-btn', function () {
                         ${genre}
                     </span>
                     <h3 class="fw-bold text-dark mt-1 mb-2" style="font-family: Georgia, serif;">${title}</h3>
+                    
                     <p class="text-secondary mb-4" style="font-style: italic;">by <strong>${authorName}</strong></p>
                     
                     <h6 class="fw-bold text-dark mb-2">About book:</h6>
@@ -171,24 +181,165 @@ $(document).on('click', '.category-btn', function () {
                         ${description}
                     </p>
                 </div>
+                <div class="modal-body">
+               
                 <div class="mt-4 pt-3 border-top d-flex align-items-center justify-content-between">
                     <div>
                         ${statusBadge}
                     </div>
-                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal" style="border-radius: 8px;">
-                        Close
-                    </button>
+                  
+                    <div class="d-flex gap-2 align-items-center">
+               <!-- Borrow Book -->
+                  <button class="badge btn-pill-borrow px-3 py-2 rounded-pill fw-medium"
+                  style="font-size: 0.88rem; cursor: pointer;"
+                    onclick="reserveBook(${bookId})">
+                        Borrow Book
+                  </button>
+
+               <!-- Close -->
+                  <button type="button" 
+                      class="badge btn-pill-close px-3 py-2 rounded-pill fw-medium" 
+                      style="font-size: 0.88rem; cursor: pointer;" 
+                      data-bs-dismiss="modal">
+                    Close
+                  </button>
+                 </div>
                 </div>
-            </div>
-        `;
+              </div>
+             `;
 
-            $('#modalBookContent').html(modalHtml);
-            $('#bookDetailsModal').modal('show');
+                $('#modalBookContent').html(modalHtml);
+                $('#bookDetailsModal').modal('show');
 
-            //const myModal = new bootstrap.Modal(document.getElementById('bookDetailsModal'));
-            //myModal.show();
-        }
+                //updateFavoriteHeart(isFav);
+                updateFavoriteHeart(
+                    clickedBook.isFavorite ?? clickedBook.IsFavorite
+                );
+                
+
+            }
+        
+        
     });
 
 
+async function reserveBook(bookCopyId) {
+   
 
+    try {
+        
+        const response = await fetch('/api/borrows/borrow', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ bookCopyId: Number(bookCopyId) })
+        });
+
+        
+        if (response.ok) {
+            alert("Cartea a fost împrumutată cu succes!");
+            window.location.href = '/Account/Profile';
+        } else {
+            
+            const text = await response.text();
+            console.error("Eroare detalii server:", text);
+
+            try {
+                const data = JSON.parse(text);
+                alert(data.message || "Eroare la împrumutarea cărții.");
+            } catch {
+                alert(text || "Eroare la împrumutarea cărții.");
+            }
+        }
+    } catch (err) {
+        console.error("Eroare de rețea:", err);
+    }
+}
+
+async function returnBook(borrowId) {
+    if (!confirm('Ești sigur că vrei să returnezi această carte?')) return;
+
+    const response = await fetch(`/api/borrows/${borrowId}/return`, {
+        method: 'PATCH'
+    });
+
+    if (response.ok) {
+        alert('Cartea a fost returnată cu succes!');
+        location.reload();
+    } else {
+        alert('A apărut o eroare la returnarea cărții.');
+    }
+}
+
+
+
+//$(document).on('click', '#btnFavoriteModal', function (e) {
+//    e.preventDefault();
+//    const bookId = $(this).attr('data-id');
+//    console.log("BOOK ID:", bookId);
+//    if (bookId) {
+//        toggleFavoriteFromModal(bookId);
+//    }
+//});
+
+$(document).on('click', '#btnFavoriteModal', function (e) {
+    e.preventDefault();
+
+    //const bookId = clickedBook.id || clickedBook.Id;
+    const bookId = currentBookId;
+
+    console.log("BOOK ID:", bookId);
+
+    if (bookId) {
+        toggleFavoriteFromModal(bookId);
+    }
+});
+
+
+function updateFavoriteHeart(isFavorite) {
+    const heartIcon = $('#favoriteHeartIcon');
+
+    if (isFavorite) {
+        heartIcon
+            .removeClass('bi-heart')
+            .addClass('bi-heart-fill text-danger');
+    } else {
+        heartIcon
+            .removeClass('bi-heart-fill text-danger')
+            .addClass('bi-heart');
+    }
+
+}
+
+function toggleFavoriteFromModal(bookId) {
+    $.ajax({
+        url: '/api/favorites/toggle',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ BookId: parseInt(bookId) }),
+        success: function (res) {
+            console.log("API RESPONSE:", res);
+            const isFav = res.isFavorite;
+
+            updateFavoriteHeart(isFav);
+
+            const targetBook = allBooks.find(b => (b.id || b.Id) == bookId);
+            if (targetBook) {
+                targetBook.isFavorite = isFav;
+                targetBook.IsFavorite = isFav;
+            }
+          
+       
+        },
+        error: function (xhr) {
+            console.log("STATUS:", xhr.status);
+            console.log("RESPONSE:", xhr.responseText);
+
+            if (xhr.status === 401) {
+                alert('Trebuie să fii autentificat!');
+            }
+        }
+    });
+}

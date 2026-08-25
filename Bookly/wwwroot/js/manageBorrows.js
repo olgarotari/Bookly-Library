@@ -77,18 +77,52 @@ function loadBorrowsTable() {
                 "render": function (data) { return data ? data.split('T')[0] : ''; }
             },
             {
+                "data": "dueDate",
+                "render": function (data) {
+                    if (!data || data.startsWith("0001-01-01")) {
+                        return '<span class="text-muted">-</span>';
+                    }
+                    return data.split('T')[0];
+                }
+            },
+            {
+                "data": null,
+                "render": function (data, type, row) {
+                    if (row.returnDate) {
+                        return '<span class="badge bg-secondary">Returned</span>';
+                    }
+
+                    const isOverdue = new Date() > new Date(row.dueDate);
+                    if (isOverdue || row.status === "Overdue") {
+                        return '<span class="badge bg-danger">Overdue</span>';
+                    }
+
+                    return '<span class="badge bg-success">Active</span>';
+                }
+            },
+            {
                 "data": "returnDate",
                 "render": function (data) { return data ? data.split('T')[0] : 'In Progress'; }
             },
             {
                 "data": null,
                 "render": function (data, type, row) {
-                    return `
-                    <button class="btn btn-action-edit" onclick="openEditBorrowModal(${row.id})">Edit</button>
-                    <button class="btn btn-action-delete" onclick="deleteBorrow(${row.id})">Delete</button>
+                    let buttons = `
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditBorrowModal(${row.id})">Edit</button>
+                        <button class="btn btn-sm btn-outline-danger me-1" onclick="deleteBorrow(${row.id})">Delete</button>
                     `;
+
+                    // Butonul Return apare doar dacă nu este deja returnat
+                    if (!row.returnDate) {
+                        buttons += `<button class="btn btn-sm btn-outline-success" onclick="returnBorrow(${row.id})">Return</button>`;
+                    }
+
+                    return buttons;
+                
+                   }
+                   
                 }
-            }
+            
 
         ],
         language: {
@@ -172,10 +206,30 @@ function saveBorrow() {
         data: JSON.stringify(borrowData),
         success: function () {
             alert("Saved succesfully!");
-            location.reload();
+            $('#borrowModal').modal('hide');
+            $('#borrowsTable').DataTable().ajax.reload();
+            //location.reload();
         },
         error: function (xhr) {
             alert("Error:" + xhr.responseText);
+        }
+    });
+}
+
+function returnBorrow(id) {
+    if (!confirm("Ești sigur că vrei să marchezi acest împrumut ca returnat?")) {
+        return;
+    }
+
+    $.ajax({
+        url: `/api/borrows/return/${id}`,
+        type: 'POST',
+        success: function (response) {
+            $('#borrowsTable').DataTable().ajax.reload(null, false);
+            alert("Cartea a fost returnată cu succes!");
+        },
+        error: function (xhr) {
+            alert("Eroare la procesarea returnării: " + (xhr.responseText || "Ceva nu a funcționat."));
         }
     });
 }

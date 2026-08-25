@@ -331,48 +331,128 @@ table.dataTable td:nth-child(6) {
 #wrapper.toggled #sidebar {
     margin-left: -250px;
 }
-    /*
-#wrapper {
+    
+/*----------stiluri pentru profile*/
+
+/* Cardul Meniului Lateral */
+.sidebar-card {
+    background-color: #5c54a4;
+    min-height: 400px;
+    padding: 1.5rem;
+    color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Butoanele din Sidebar */
+.sidebar-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+    .sidebar-btn:hover {
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-btn.active {
+        color: #ffffff !important;
+        background-color: rgba(255, 255, 255, 0.25) !important;
+        font-weight: 500;
+    }
+
+/* Detalii Profil */
+.avatar-placeholder {
+    width: 90px;
+    height: 90px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    border: 1px solid #dee2e6;
     display: flex;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-weight: bold;
 }
 
-#sidebar-wrapper {
-    min-height: 100vh;
-    width: 250px;
-    background-color: #fdfbf7;
-    border-right: 1px solid #e6e1da;
-    transition: margin .25s ease-out;
+.profile-title {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
 }
 
-    #sidebar-wrapper .sidebar-heading {
-        padding: 1.5rem 1.25rem;
-        font-family: 'Playfair Display', serif;
-        font-size: 1.25rem;
-        color: #2b2b2b;
-        border-bottom: 1px solid #e6e1da;
+/* Formular Setări */
+.settings-form {
+    max-width: 500px;
+}
+
+.logout-btn-blue {
+    color: #ffe8e8 !important; /* Albastru deschis / Cyan foarte luminos */
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+    .logout-btn-blue:hover {
+        color: #dc3545 !important;
+        background-color: rgb(255, 232, 232);
+        !important; /* Glow albastru la hover */
     }
 
-    #sidebar-wrapper .list-group-item {
-        padding: 1rem 1.5rem;
-        background-color: transparent;
-        color: #6c757d;
-        border: none;
-        transition: all 0.2s;
-    }
-
-        #sidebar-wrapper .list-group-item:hover,
-        #sidebar-wrapper .list-group-item.active {
-            color: #dc3545;
-            background-color: #ffe8e8;
-            font-weight: bold;
-        }
-
-#page-content-wrapper {
-    width: 100%;
-    padding: 2rem;
-}
-
-#wrapper.toggled #sidebar {
-    margin-left: -250px;
+/*#dc3545*/
+/*.sidebar-btn.text-danger-emphasis:hover {
+    background-color: rgba(220, 53, 69, 0.3) !important;
+    color: #ffffff !important;
 }*/
+.btn-heart-icon {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    cursor: pointer;
+    line-height: 1;
+    color: #e65c7b;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+    .btn-heart-icon:hover {
+        transform: scale(1.2);
+    }
+
+    .btn-heart-icon .bi-heart-fill {
+        color: #e63946 !important; /* Roșu aprins */
+    }
+
+.btn-pill-borrow {
+    background-color: var(--bs-primary-bg-subtle, #e0cffc);
+    color: var(--bs-primary-text-emphasis, #4a3d9b);
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn-pill-borrow:hover {
+        background-color: #d0bfff;
+        color: #3b2f82;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(92, 78, 180, 0.15);
+    }
+
+.btn-pill-close {
+    background-color: var(--bs-secondary-bg-subtle, #e9ecef);
+    color: var(--bs-secondary-text-emphasis, #495057);
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+    .btn-pill-close:hover {
+        background-color: #dee2e6;
+        color: #212529;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+
